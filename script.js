@@ -86,44 +86,37 @@ window.addEventListener("load", () => {
     localStorage.setItem("products", JSON.stringify(initialProducts));
   }
 
-  if (location.pathname === "/index.html") {
+  if (location.pathname === "./index.html") {
     loadIndex();
   }
-  if (location.pathname === "/cart.html") {
+  if (location.pathname === "./cart.html") {
     loadCart();
   }
   console.log(location.pathname);
 });
 
+//Index displayBtn()
+// const displayBtn=(product)=>{
+//   const cart = JSON.parse(localStorage.getItem("cart"));
+//   const checkProductAvailablity=cart.find((product)=>product.id===cart.id);
+//   if(checkProductAvailablity){
+//     return `<div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+//     <div class="input-group mb-3">
+//     <button class="input-group-text" onclick="modifyCount(${item.id},"-")">-</button>
+   
+//     <p class="m-2">${item.count}</p>
+//     <button class="input-group-text" onclick="modifyCount(${item.id},"+")">+</button>
+//   </div>
+//     </div>`;
+//   }
+
+// }
+
 const loadIndex = () => {
   const cardRef = document.getElementById("card");
   const products = JSON.parse(localStorage.getItem("products"));
+  console.log(products);
   let body = "";
-  //   const para = document.createElement("div");
-  //   para.classList.add("row ");
-  //   for (let product of products) {
-  //     // Create element:
-
-  //     body += `<div class="col-3 d-flex mt-4 ">
-  //     <div
-  //       style="background-color:white"
-  //        class="border rounded p-2 bg-primary-subtle border-primary-subtle w-100 d-flex flex-column mh-75"
-  //      >
-  //  <img src="${product.thumbnail}" alt="image" style="min-width:200px;height:200px" />
-  //   <div class="card-body">
-  //     <h5 class="card-title">${product.title}</h5>
-  //     <p class="card-text">
-  //     ${product.description}
-  //     </p>
-  //     <p class="fs-4 my-1 mb-2 text-center">₹ ${product.price}</p>
-  //     <button class="btn btn-success" onClick="addToCart(${product.id})">Add to Cart</button>
-  //   </div>
-  // </div>
-  // </div>`;
-  //   }
-  //   para.innerHTML = body;
-  //   // Append to another element:
-  //   cardRef.appendChild(para);
 
   for (let product of products) {
     body += `<div class="col-4 d-flex justify-content-evenly card-style" >
@@ -137,20 +130,22 @@ const loadIndex = () => {
   <div class="card-body">
     <h5 class="card-title">${product.title}</h5>
     <p class="card-text">
-    ${product.description}
+    ${product.description.substring(0,20)}
     </p>
     <p class="fs-4 my-1 mb-2">₹ ${product.price}</p>
-   
-    <button class="btn btn-success w-100" onClick="addToCart(${
-      product.id
-    })">Add to Cart</button>
+  
+    <button class="btn btn-success w-100" onClick="addToCart${product.id}">Add to Cart</button>
     
     </div>
 </div>
 </div>`;
   }
+  if(cardRef)
   cardRef.innerHTML = body;
 };
+loadIndex();  
+
+
 
 //Add To Cart
 const addToCart = (id) => {
@@ -201,13 +196,16 @@ const loadCart = () => {
       </div>
       <div class="col-md-3 col-lg-3 col-xl-3">
         <h6 class="text-muted">${item.title}</h6>
+        <h5 class="text-muted">${item.description.substring(0,30)}</h5>
+
         
       </div>
       <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
       <div class="input-group mb-3">
-      <button class="input-group-text">-</button>
-      <input type="text" class="form-control" value="${item.count}">
-      <button class="input-group-text">+</button>
+      <button class="input-group-text" onclick="modifyCount(${item.id},"-")">-</button>
+     
+      <p class="m-2">${item.count}</p>
+      <button class="input-group-text" onclick="modifyCount(${item.id},"+")">+</button>
     </div>
       </div>
       <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
@@ -229,17 +227,40 @@ const loadCart = () => {
   </div>
 </div>`;
   }
+  if(itemsRef)
   itemsRef.innerHTML = body;
 };
-
+loadCart();
 //Remove product from cart
 const removeProduct=(id)=>{
-  const products = JSON.parse(localStorage.getItem("products"));
-  console.log(products);
-  const product=products.filter((product)=>product.id!==id);
-  localStorage.setItem("products",JSON.stringify(product));
-  console.log(product);
+  const cart = JSON.parse(localStorage.getItem("cart"));
+  const filteredCart=cart.filter((product)=>product.id!==id);
+  localStorage.setItem("cart",JSON.stringify(filteredCart));
   location.href="./cart.html";
 }
 
+//Modify Count
+
+const modifyCount=(id,operator="+")=>{
+  let cart=[];
+  
+  if(localStorage.getItem("cart")){
+    cart=JSON.parse(localStorage.getItem("cart"));
+  }
+  let filteredCart=cart.filter((product)=>product.id!==id);
+  const cartProduct=cart.find((product)=>product.id===id);
+
+  for(let c of cart)
+  {
+    if(c.id===id)
+    {
+      if(operator==="+"){
+        filteredCart.push({...c,count:c.count+1});
+          }
+          else if(operator==="-"){
+            filteredCart.push({...c,count:c.count1});
+          }
+    }
+  }
+}
 
