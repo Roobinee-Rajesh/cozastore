@@ -1,0 +1,24 @@
+.body {
+  background-color: rgb(190, 185, 185);
+}
+
+.card-style {
+  margin-bottom: 50px;
+  border-radius: 15px;
+}
+.card-style:hover {
+  transform: scale(1.1);
+}
+
+.indexBody {
+  border-radius: 30px;
+  background-color: white;
+}
+
+.product-container {
+  margin: 20px;
+}
+
+.icon{
+    color: black;
+}
