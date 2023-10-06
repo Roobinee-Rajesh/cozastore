@@ -86,11 +86,11 @@ window.addEventListener("load", () => {
     localStorage.setItem("products", JSON.stringify(initialProducts));
   }
 
-  if (location.pathname === "./index.html") {
+  if (location.pathname === "/cozastore/index.html") {
     loadIndex();
     cartCount();
   }
-  if (location.pathname === "./cart.html") {
+  if (location.pathname === "/cozastore/cart.html") {
     loadCart();
     cartCount();
   }
@@ -235,7 +235,7 @@ const removeProduct = (id) => {
   const cart = JSON.parse(localStorage.getItem("cart"));
   const filteredCart = cart.filter((product) => product.id !== id);
   localStorage.setItem("cart", JSON.stringify(filteredCart));
-  location.href = "./cart.html";
+  location.href = "/cozastore/cart.html";
 };
 
 //Modify Count
